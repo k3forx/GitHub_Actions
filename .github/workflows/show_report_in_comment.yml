@@ -40,7 +40,7 @@ jobs:
         run: git branch --contains
 
       - name: Echo ${{ env.FUNCTION_NAME }}
-        run: echo ${{ FUNCTION_NAME }}
+        run: echo ${FUNCTION_NAME}
 
       - uses: actions/setup-python@v2
         with:
