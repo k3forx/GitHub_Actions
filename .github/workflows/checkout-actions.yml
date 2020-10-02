@@ -8,6 +8,8 @@ jobs:
   test-checkout-action:
     runs-on: ubuntu-latest
     steps:
+      - name: Show work directory
+        run: echo ${GITHUB_WORKSPACE}
       - uses: actions/checkout@v2
         with:
           fetch-depth: 2
