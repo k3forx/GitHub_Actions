@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [opened, synchronize]
 
-job:
+jobs:
   test-checkout-action:
     runs-on: ubuntu-latest
     steps:
