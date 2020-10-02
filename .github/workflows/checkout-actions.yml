@@ -1,0 +1,23 @@
+name: test-checkout-actions
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+job:
+  test-checkout-action:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+      - name: Set commit message to an environment variable
+        run: |
+          echo ::set-env name=COMMIT_MSG::$(git log --format=%B -n 1 --skip 1)
+          echo "${COMMIT_MSG}"
+
+      - uses: actions/checkout@v2
+      - name: Set commit message to an environment variable
+        run: |
+          echo ::set-env name=COMMIT_MSG::$(git log --format=%B -n 1)
+          echo "${COMMIT_MSG}"
