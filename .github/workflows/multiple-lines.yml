@@ -3,7 +3,7 @@ name: test multiple lines
 on:
   pull_request:
     path:
-      - '.github/actions/**'
+      - '.github/actions/multiple_lines.yml'
 
 jobs:
   test-for-multiple-lines:
