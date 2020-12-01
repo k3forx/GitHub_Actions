@@ -13,7 +13,9 @@ jobs:
       - name: Set files to an environment variables
         run: |
           touch file1.txt file2.txt file3.txt
-          echo "files=$(ls -l | grep .txt | awk '{print $9}')" >> $GITHUB_ENV
+          echo "files<<\n" >> $GITHUB_ENV
+          ls -l | grep .txt | awk '{print $9}' >> $GITHUB_ENV
+          echo "\n" >> $GITHUB_ENV
 
       - name: Execute shell script
         run: ./.github/actions/sample.sh
