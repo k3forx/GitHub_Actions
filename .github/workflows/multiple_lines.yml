@@ -1,0 +1,20 @@
+name: test multiple lines
+
+on:
+  pull_request:
+    path:
+      - '.github/actions/**'
+
+jobs:
+  test-for-multiple-lines:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set files to an environment variables
+        run: |
+          touch file1.txt file2.txt file3.txt
+          echo "files=$(ls -l | grep .txt | awk '{print $9}')" >> $GITHUB_ENV
+
+      - name: Execute shell script
+        run: ./.github/actions/sample.sh
+
