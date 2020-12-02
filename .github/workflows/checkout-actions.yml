@@ -2,7 +2,8 @@ name: test-checkout-actions
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    path:
+      - ".github/workflows/checkout-actions.yml"
 
 jobs:
   test-checkout-action:
