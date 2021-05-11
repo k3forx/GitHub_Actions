@@ -1,3 +1,4 @@
+name: test-composite-workflow
 on: [push]
 
 jobs:
