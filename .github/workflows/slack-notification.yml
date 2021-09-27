@@ -24,7 +24,7 @@ jobs:
           echo '::set-output name=COMMIT_MESSAGE::${{ github.event.head_commit.message }}'
           echo '::set-output name=BRANCH::aaa'
           raw=$(git branch -r --contains ${{ github.ref }})
-          branch=${raw/origin\/}
+          branch=${raw##*/}
           echo "BRANCH_NAME=${branch}" >> ${GITHUB_ENV}
           echo ${BRANCH_NAME}
 
