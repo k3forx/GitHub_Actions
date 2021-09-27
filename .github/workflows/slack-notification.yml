@@ -10,8 +10,11 @@ jobs:
   notification:
     runs-on: ubuntu-latest
     steps:
-      - name: Set COMMIT_MESSAGE
-        run: echo "COMMIT_MESSAGE=$(echo "${{ github.event.head_commit.message  }}" | tr '\n' ' ')" >> $GITHUB_ENV
+      - name: Set sending info
+        id: set_sending_info
+        run: |
+          echo "::set-output name=COMMIT_MESSAGE::$(echo "${{ github.event.head_commit.message }}" | tr '\n' ' ')" >> $GITHUB_ENV
+
       - name: Notification
         uses: tokorom/action-slack-incoming-webhook@main
         env:
@@ -27,7 +30,11 @@ jobs:
                 "fields": [
                   {
                     "title": "Commit Message",
-                    "value": "${{ env.COMMIT_MESSAGE }}"
+                    "value": "${{ steps.set_sending_info.outputs.COMMIT_MESSAGE }}"
+                  },
+                  {
+                    "title": "GitHub Actions URL",
+                    "value": "${{ github.event.repository.url  }}/actions/runs/${{ github.run_id }}"
                   }
                 ]
               }
