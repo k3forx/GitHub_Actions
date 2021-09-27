@@ -10,10 +10,14 @@ jobs:
   notification:
     runs-on: ubuntu-latest
     steps:
+      - name: checkout source code
+        uses: actions/checkout@v2
+
       - name: Set sending info
         id: set_sending_info
         run: |
           echo '::set-output name=COMMIT_MESSAGE::${{ github.event.head_commit.message }}'
+          echo '::set-output name=BRANCH::$("aaa")'
 
       - name: Notification
         uses: tokorom/action-slack-incoming-webhook@main
@@ -28,6 +32,10 @@ jobs:
                 "author_name": "${{ github.actor }}",
                 "author_icon": "${{ github.event.sender.avatar_url }}",
                 "fields": [
+                  {
+                    "title": "Branch",
+                    "value": "${{ steps.set_sending_info.outputs.BRANCH }}"
+                  },
                   {
                     "title": "Commit Message",
                     "value": "${{ steps.set_sending_info.outputs.COMMIT_MESSAGE }}"
