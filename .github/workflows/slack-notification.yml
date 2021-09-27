@@ -26,6 +26,7 @@ jobs:
           raw=$(git branch -r --contains ${{ github.ref }})
           branch=${raw/origin\/}
           echo "BRANCH_NAME=${branch}" >> ${GITHUB_ENV}
+          echo ${BRANCH_NAME}
 
       - name: Notification
         uses: tokorom/action-slack-incoming-webhook@main
