@@ -32,7 +32,7 @@ jobs:
                   {
                     "title": "GitHub Actions URL",
                     "value": "${{ github.event.repository.url }}/actions/runs/${{ github.run_id }}"
-                  },
-	              ],
+                  }
+	              ]
               }
             ]
