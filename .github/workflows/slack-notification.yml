@@ -17,7 +17,7 @@ jobs:
         id: set_sending_info
         run: |
           echo '::set-output name=COMMIT_MESSAGE::${{ github.event.head_commit.message }}'
-          echo '::set-output name=BRANCH::$("aaa")'
+          echo '::set-output name=BRANCH::aaa'
 
       - name: Notification
         uses: tokorom/action-slack-incoming-webhook@main
