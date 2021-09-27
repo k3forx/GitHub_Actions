@@ -4,14 +4,18 @@ on:
   pull_request:
     path:
       - ".github/workflows/slack-notifications.yml"
+  push:
+    tags:
+      - dev-*
 
 
 jobs:
   notification:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout source code
+      - name: checkout
         uses: actions/checkout@v2
+
 
       - name: Set sending info
         id: set_sending_info
@@ -19,6 +23,9 @@ jobs:
           echo ${{ github.event.head_commit.message }}
           echo '::set-output name=COMMIT_MESSAGE::${{ github.event.head_commit.message }}'
           echo '::set-output name=BRANCH::aaa'
+          raw=$(git branch -r --contains ${{ github.ref }})
+          branch=${raw/origin\/}
+          echo "BRANCH_NAME=${branch}" >> ${GITHUB_ENV}
 
       - name: Notification
         uses: tokorom/action-slack-incoming-webhook@main
@@ -35,7 +42,7 @@ jobs:
                 "fields": [
                   {
                     "title": "Branch",
-                    "value": "${{ steps.set_sending_info.outputs.BRANCH }}"
+                    "value": ${BRANCH_NAME}
                   },
                   {
                     "title": "Commit Message",
