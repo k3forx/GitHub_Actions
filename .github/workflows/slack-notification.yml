@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set COMMIT_MESSAGE
-        run: echo ::set-env name=COMMIT_MESSAGE::$(echo "${{ github.event.head_commit.message  }}" | tr '\n' ' ')
+        run: echo "COMMIT_MESSAGE=$(echo "${{ github.event.head_commit.message  }}" | tr '\n' ' ')" >> $GITHUB_ENV
       - name: Notification
         uses: tokorom/action-slack-incoming-webhook@main
         env:
