@@ -29,6 +29,6 @@ jobs:
                     "title": "Commit Message",
                     "value": "${{ env.COMMIT_MESSAGE }}"
                   }
-	              ]
+                ]
               }
             ]
