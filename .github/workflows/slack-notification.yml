@@ -16,17 +16,18 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
 
-      - name: Set sending info
-        id: set_sending_info
-        run: |
-          echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v5.2
 
       - name: test
+        uses: tj-actions/branch-names@v5.2
         env:
           RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
         run: |
           echo $GITHUB_REF
           echo ${GITHUB_REF} | awk -F / '{print $NF}'
+          echo "Running on pr: ${{ steps.branch-name.outputs.head_ref_branch }}"
           echo $RELEASE_VERSION
           echo ${{ steps.vars.outputs.tag }}
 
