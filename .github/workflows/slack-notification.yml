@@ -22,7 +22,7 @@ jobs:
           echo ::set-output name=tag::${GITHUB_REF#refs/*/}
 
       - name: test
-				env:
+        env:
           RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
         run: |
           echo $RELEASE_VERSION
