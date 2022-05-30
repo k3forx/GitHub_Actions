@@ -28,9 +28,12 @@ jobs:
         run: |
           echo $GITHUB_REF
           echo ${GITHUB_REF} | awk -F / '{print $NF}'
+          tag=$(${GITHUB_REF} | awk -F / '{print $NF}')
+          echo $tag
           echo "Running on pr: ${{ steps.branch-name.outputs.current_branch  }}"
           echo "Running on pr: ${{ steps.branch-name.outputs.head_ref_branch }}"
-          raw=$(git branch -r --contains ${{ github.ref }})
+          raw=$(git branch --contains ${{ github.ref }})
+          git branch --contains ${tag}
           echo $raw
           branch=${raw/origin\/}
           echo $branch
