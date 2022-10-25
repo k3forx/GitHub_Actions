@@ -1,0 +1,28 @@
+name: stop-concurrency
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sum: [60, 120, 180, 240, 300]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Test
+        run: |
+          echo ${{ github.ref }}
+          for i in `seq 1 ${{ matrix.sum }}`; do echo ${i}; sleep 1; done;
