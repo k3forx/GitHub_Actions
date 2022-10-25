@@ -23,4 +23,6 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Test
-        run: for i in `seq 1 ${{ matrix.sum }}`; do echo ${i}; sleep 1; done;
+        run: |
+          echo ${{ github.ref }}
+          for i in `seq 1 ${{ matrix.sum }}`; do echo ${i}; sleep 1; done;
