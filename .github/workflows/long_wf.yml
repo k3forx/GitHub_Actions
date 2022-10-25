@@ -1,0 +1,17 @@
+name: long-workflow
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Test
+        run: for i in `seq 1 300`; do echo ${i}; sleep 1; done;
