@@ -1,0 +1,70 @@
+name: dev-slack-notify
+
+on:
+  pull_request:
+    path:
+      - ".github/workflows/slack-notifications.yml"
+  push:
+    tags:
+      - dev-*
+
+
+jobs:
+  notification:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v5.2
+
+      - name: test
+        env:
+          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
+        run: |
+          echo $GITHUB_REF
+          echo ${GITHUB_REF} | awk -F / '{print $NF}'
+          tag=$(echo ${GITHUB_REF} | awk -F / '{print $NF}')
+          echo "tag: $tag"
+          echo "Running on pr: ${{ steps.branch-name.outputs.current_branch  }}"
+          echo "Running on pr: ${{ steps.branch-name.outputs.ref_branch }}"
+          echo "--------------------------"
+          raw=$(git branch --contains ${{ github.ref }})
+          git branch --contains ${{ steps.branch-name.outputs.current_branch }}
+          echo $raw
+          branch=${raw/origin\/}
+          echo $branch
+          echo "-----------------------------"
+          echo $RELEASE_VERSION
+          echo ${{ steps.vars.outputs.tag }}
+
+      - name: Notification
+        uses: tokorom/action-slack-incoming-webhook@main
+        env:
+          INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          text: Successfully automated deployment
+          attachments: |
+            [
+              {
+                "color": "good",
+                "author_name": "${{ github.actor }}",
+                "author_icon": "${{ github.event.sender.avatar_url }}",
+                "fields": [
+                  {
+                    "title": "Branch",
+                    "value": ${BRANCH_NAME}
+                  },
+                  {
+                    "title": "Commit Message",
+                    "value": "${{ steps.set_sending_info.outputs.COMMIT_MESSAGE }}"
+                  },
+                  {
+                    "title": "GitHub Actions URL",
+                    "value": "${{ github.event.repository.url  }}/actions/runs/${{ github.run_id }}"
+                  }
+                ]
+              }
+            ]
